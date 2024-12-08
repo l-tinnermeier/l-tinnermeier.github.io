@@ -80,7 +80,14 @@ main section hr {
     background-color: var(--text);
     margin-bottom: 5vh;
 }
-#timeUntilLastFinal {
+
+#timeUntilFinal {
+    color: var(--primary);
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#scoreNeededFinal {
     color: var(--primary);
     margin-top: 0;
     margin-bottom: 0;
@@ -210,4 +217,39 @@ dialog textarea {
     border: none;
     border-radius: 10px;
     resize: none;
+}
+
+.task {
+    background-color: var(--primary);
+    width: 70%;
+    margin: 10px auto;
+    padding: 0 0 0 20px;
+    border: solid var(--secondary);
+    border-width: 0 0 5px 0;
+    border-radius: 15px;
+    text-align: left;
+    position: relative;
+}
+
+.taskDone {
+    width: 50px;
+    padding: 0;
+    height: auto;
+    font-size: 10px;
+    left: 70%;
+    bottom: 25%;
+}
+
+.taskAdd {
+    width: 50px;
+    padding: 0;
+    height: auto;
+    font-size: 10px;
+    left: 70%;
+}
+
+.taskContainer {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 60%;
 }

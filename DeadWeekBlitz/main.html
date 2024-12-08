@@ -10,27 +10,24 @@
 </head>
 <body>
     <header>
-        <h2 id="title">Deadweek Blitz</h2>
-        <p style="margin-bottom: 0">Time Until Final</p>
-        <h1 id="timeUntilLastFinal">00:00:00</h1>
+        <h2 id="title" onclick="returnToHome()">Deadweek Blitz</h2>
+        <div style="display: flex; align-items: center; justify-content: space-around;">
+            <div id="timeUntilFinalContainer">
+                <p style="margin-bottom: 0">Time Until Final</p>
+                <h1 id="timeUntilFinal">10 days</h1>
+            </div>
+            <div id="neededScoreContainer" style="display: none;">
+                <p style="margin-bottom: 0">Score Needed</p>
+                <h1 id="scoreNeededFinal">90%</h1>
+            </div>
+        </div>
         <hr>
     </header>
 
-    <button onclick="sectionSwitcher(1)" id="testButton">Switch lol</button>
-    <button onclick="openModal(0)" id="testButton2">Create Class Modal</button>
-    <button onclick="openModal(1)" id="testButton3">Create Task Modal</button>
-
-    <main>
+    <main id="classOverviewContainer">
         <div class="classContainer">
-            <h2 class="classTitle" style="margin-bottom: -5px;">Test Title</h2>
-            <h1 class="classTasksCompleted">0%</h1>
-            <button class="viewClass styledButton">View</button>
+            <button class="viewClass styledButton createNewClassButton" onclick="openModal(0)">New Class</button>
         </div>
-
-        <div class="classContainer">
-            <button class="viewClass styledButton createNewClassButton">New Class</button>
-        </div>
-
     </main>
 
     <main>
@@ -39,14 +36,10 @@
             <h1 class="classDispTasksCompleted" style="margin: 0;">0%</h1>
             <hr style="margin-bottom: 15px;">
             <button class="createNewTask styledButton" style="position: relative; top: 0; width: 70%; height: 35px;" onclick="openModal(1)">+</button>
+
             <div class="taskContainer">
-                <div class="task" style="background-color: var(--primary); width: 70%; margin: 10px auto; padding: 0 0 0 20px; border: solid var(--secondary); border-width: 0 0 5px 0; border-radius: 15px; text-align: left; position: relative;">
-                    <h4 class="taskTitle" style="margin-bottom: 0; margin-top: auto;">Placeholder</h4>
-                    <p class="taskDescription" style="margin-top: 0;">...</p>
-                    <button class="viewTask styledButton screenModify" style="width: 50px; padding: 0; height: auto; font-size: 10px; left: 70%; bottom: 50%;">Done?</button>
-                    <button class="viewTask styledButton screenModify" style="width: 50px; padding: 0; height: auto; font-size: 10px; left: 70%">+</button>
-                </div>
             </div>
+
         </section>
         <section class="workInProgress">
             <h2 class="classTitle" style="margin-bottom: -5px;">Studying</h2>
@@ -62,30 +55,36 @@
         <p class="closeModal" onclick="document.getElementById('createNewClassModal').close()">X</p>
         <h1>New Class</h1>
         <h2>Name</h2>
-        <input type="text" placeholder="Class Name" id="className" maxlength="30">
+        <input type="text" placeholder="Class Name" id="createClassNameInput" maxlength="30">
 
         <div id="modalContent">
             <div class="modalChild">
                 <h2>Final Date</h2>
-                <input type="datetime-local" id="finalDate">
+                <input type="datetime-local" id="createClassDateInput">
             </div>
             <div class="modalChild">
                 <h2>Score Needed</h2>
-                <input type="number" id="scoreNeeded" placeholder="50">
+                <input type="number" id="createClassScoreInput" placeholder="50">
             </div>
         </div>
 
-        <button class="styledButton">+</button>
+        <button class="styledButton" onclick="createClass()">+</button>
     </dialog>
 
     <dialog id="createNewTaskModal">
         <p class="closeModal" onclick="document.getElementById('createNewTaskModal').close()">X</p>
         <h1 style="text-align: center">New Task</h1>
         <h2>Name</h2>
-        <input type="text" placeholder="Class Name" id="taskName" maxlength="30">
+        <input type="text" placeholder="Task Name" id="createTaskNameInput" maxlength="15">
         <h2>Description</h2>
-        <textarea placeholder="Description" id="taskDescription" maxlength="500" rows="10" cols="50"></textarea>
-        <button class="styledButton">+</button>
+        <textarea placeholder="Description" id="createTaskDescriptionInput" maxlength="500" rows="10" cols="50"></textarea>
+        <button class="styledButton" onclick="createTask()">+</button>
+    </dialog>
+
+    <dialog id="taskInfoModal">
+        <p class="closeModal" onclick="document.getElementById('taskInfoModal').close()">X</p>
+        <h1 id="taskInfoTitle"></h1>
+        <p id="taskInfoDescription"></p>
     </dialog>
 
 </body>

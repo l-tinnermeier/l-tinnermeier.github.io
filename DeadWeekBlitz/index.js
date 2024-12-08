@@ -48,9 +48,3 @@ function openModal(modal) {
             break;
     }
 }
-            break;
-        case 1:
-            createNewTaskModal.showModal();
-            break;
-    }
-}

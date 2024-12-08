@@ -1,0 +1,213 @@
+.lexend-deca {
+  font-family: "Lexend Deca", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+:root {
+    --text: rgb(252, 234, 233);
+    --background: rgb(1, 1, 4);
+        --lightBackground: rgb(44, 36, 36);
+        --fadedBackground: rgb(26, 26, 21);
+        --modalBackground: rgb(68, 50, 50);
+    --primary: rgb(212, 78, 78);
+    --secondary: rgb(107, 0, 0);
+    --accent: rgb(219, 0, 0);
+        --darkAccent: rgb(161, 2, 2);
+}
+
+@media only screen and (max-width: 600px) {
+    .workInProgress {
+        display: none;
+        background-color: aqua;
+    }
+}
+html, body {
+    font-family: "Lexend Deca", sans-serif;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text);
+}
+
+header {
+    text-align: center;
+}
+
+header hr {
+    width: 90vw;
+    height: 0.5vh;
+    color: var(--text);
+    background-color: var(--text);
+    margin-top: 0;
+    margin-bottom: 5vh;
+}
+
+main {
+    background-color: var(--fadedBackground);
+    text-align: center;
+    margin: auto;
+    width: 80vw;
+    height: 75vh;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    border-radius: 15px;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+section {
+    background-color: var(--lightBackground);
+    width: 40%;
+    height: 90%;
+    margin: 5% auto;
+    border-radius: 15px;
+
+}
+
+main section hr {
+    width: 80%;
+    margin-top: 0;
+    height: 0.25rem;
+
+    color: var(--text);
+    background-color: var(--text);
+    margin-bottom: 5vh;
+}
+#timeUntilLastFinal {
+    color: var(--primary);
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.classContainer {
+    background-color: var(--primary);
+    color: var(--text);
+    width: 250px;
+    height: 0;
+    padding-bottom: 250px;
+
+    border-radius: 25px;
+    border: solid  var(--secondary);
+    border-width: 0 0 7px 0;
+    margin: 2.5vh 2.5vh;
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.classTasksCompleted {
+    font-size: 300%;
+}
+
+.classDispTasksCompleted {
+    font-size: 300%;
+    margin: 0;
+}
+
+.styledButton {
+    background-color: var(--accent);
+    font-family: "Lexend Deca", sans-serif;
+    font-size: 1.5em;
+    color: var(--text);
+    border: solid var(--darkAccent);
+    border-width: 0 0 5px 0;
+    border-radius: 15px;
+
+    width: 70%;
+    height: 25%;
+    padding: 1vh 0;
+    position: absolute;
+    text-align: center;
+    left: 15%;
+    bottom: 5%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.styledButton:hover {
+    background-color: var(--darkAccent);
+    border-color: rgb(130, 2, 2);
+}
+
+.styledButton:active {
+    transform: scale(0.85);
+}
+
+.createNewClassButton {
+    bottom: 40% !important;
+}
+
+dialog {
+    background-color: var(--modalBackground);
+    border: none;
+    color: var(--text);
+    border-radius: 15px;
+    width: 70vw;
+    @media only screen and (max-width: 600px) {
+        height: 25vh;
+    }
+    @media only screen and (min-width: 600px) {
+        height: 50vh;
+    }
+}
+
+dialog .closeModal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+}
+dialog #modalContent {
+    display: block;
+    flex-direction: column;
+}
+
+dialog .modalChild {
+    width: 50%;
+    display: block;
+    float: left;
+}
+
+dialog button {
+    width: 15% !important;
+    height: 10% !important;
+    left: 80% !important;
+    bottom: 10% !important;
+    background-color: var(--primary) !important;
+    border-color: var(--darkAccent) !important;
+}
+
+dialog button:hover {
+    background-color: var(--darkAccent) !important;
+    border-color: rgb(130, 2, 2) !important;
+}
+
+dialog input {
+    background-color: var(--text);
+    font-family: "Lexend Deca", sans-serif;
+    border: none;
+    border-radius: 10px;
+    height: 25px;
+}
+
+dialog textarea {
+    background-color: var(--text);
+    font-family: "Lexend Deca", sans-serif;
+    border: none;
+    border-radius: 10px;
+    resize: none;
+}

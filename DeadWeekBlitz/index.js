@@ -18,6 +18,16 @@ window.onload = () => {
         sections[i].style.display = 'none';
     }
     sections[0].style.display = 'flex';
+
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        console.log("This is a mobile device.");
+        document.getElementsByClassName("workInProgress")[0].style.display = 'none';
+        document.getElementsByTagName("section")[0].style.width = '80%';
+        document.getElementsByClassName("screenModify")[0].style.left = '80%';
+        document.getElementsByClassName("screenModify")[1].style.left = '80%';
+    } else {
+        console.log("This is not a mobile device.");
+    }
 }
 
 function sectionSwitcher(section) {
@@ -32,6 +42,12 @@ function openModal(modal) {
     switch(modal) {
         case 0:
             createNewClassModal.showModal();
+            break;
+        case 1:
+            createNewTaskModal.showModal();
+            break;
+    }
+}
             break;
         case 1:
             createNewTaskModal.showModal();

@@ -41,7 +41,9 @@ class HashTable {
         } else {
             this.table = new Array(initialSize);
             this.size = initialSize;
+            this.initialSize = initialSize;
             this.elements = 0;
+            this.resizes = 0;
         }
     }
 
@@ -97,6 +99,7 @@ class HashTable {
 
             if (this.elements / this.size >= 0.75) {
                 console.log("[addNode] Load factor of 0.75 reached, growing table...");
+                this.resizes++;
                 this.rehashTable();
             }
 
@@ -196,17 +199,166 @@ class HashTable {
     }
 }
 
-let hashTable = new HashTable(11);
-let tableSize = 440;
+const hashTableContentsDisp = document.getElementById("hashTableContentsDisp");
+const shelfs = document.getElementsByClassName("shelf");
 
-for (let i = 0; i < tableSize; i++) {
-    hashTable.addNode(new Node(`item ${i}`, i * i));
+let hashTable;
+let tableSize;
+
+function initializeHashTable(size) {
+    if (typeof size != "number") {
+        throw new Error(`Invalid parameter: "${size}" is not of type Number`);
+    } else {
+        tableSize = size;
+        hashTable = new HashTable(tableSize);
+    }
+}
+function displayHashTable() {
+
+    shelfContainer.innerHTML = "";
+    for (let i = 0; i < (hashTable.resizes + 1); i++) {
+        let newShelf = document.createElement("section");
+        newShelf.classList.add("shelf");
+        shelfContainer.appendChild(newShelf);
+    }
+    
+    for (let i = 0; i < shelfs.length; i++) {
+        shelfs[i].innerHTML = "";
+    }
+
+
+    let shelfIndex = 0;
+
+    hashTableContentsDisp.innerHTML = "";
+    for (let i = 0; i < hashTable.getTable().length; i++) {
+
+        shelfIndex = Math.floor(i / hashTable.initialSize);
+
+        if (hashTable.getTable()[i] != null) {
+            let newElement = document.createElement("div");
+            // <div class="book">
+            //     <span class="spine-text">Data Structures Reference</span>
+            // </div>
+            let newBook = document.createElement("div");
+            newBook.classList.add("book");
+            let spineText = document.createElement("span");
+            spineText.classList.add("spine-text");
+
+            if (hashTable.getTable()[i].getNextNode() != null) {
+                let chainLength = 0;
+                let placeholderNode = hashTable.getTable()[i];
+                while (placeholderNode != null) {
+                    let newElementChild = document.createElement("div");
+                    newElementChild.innerHTML = `<p>${i}.${chainLength}: ${placeholderNode.key}, ${placeholderNode.value}</p>`;
+                    newElement.appendChild(newElementChild);
+                    placeholderNode = placeholderNode.getNextNode();
+
+
+                    let newBookChild = document.createElement("div");
+                    newBookChild.classList.add("book");
+                    let spineText = document.createElement("span");
+                    spineText.classList.add("spine-text");
+                    spineText.innerText = hashTable.getTable()[i].key + (chainLength > 0 ? ` vol. ${chainLength})` : "");
+                    newBookChild.appendChild(spineText);
+                    shelfs[shelfIndex].appendChild(newBookChild);
+
+                    chainLength++;
+
+                }
+            } else {
+                newElement.innerHTML = `<p>${i}: ${hashTable.getTable()[i].key}, ${hashTable.getTable()[i].value}</p>`;
+                spineText.innerText = hashTable.getTable()[i].key;
+                newBook.appendChild(spineText);
+                shelfs[shelfIndex].appendChild(newBook);
+            }
+            hashTableContentsDisp.appendChild(newElement);
+            hashTableContentsDisp.appendChild(document.createElement("br"));
+        }
+    }
+
+    resizeBooks();
 }
 
-console.log(hashTable.getTable());
-
-for (let i = 0; i < tableSize; i++) {
-    console.log(hashTable.getNode(`item ${i}`));
+function addToHashTable() {
+    let userInput = prompt("Enter a key to add to the hash table:");
+    if (userInput != null) {
+        let valueInput = prompt("Enter a value to add to the hash table:");
+        if (valueInput != null) {
+            hashTable.addNode(new Node(userInput, parseInt(valueInput)));
+            displayHashTable();
+        }
+    }
 }
 
-console.log(hashTable.getTable());
+function deleteFromHashTable() {
+    let userInput = prompt("Enter a key to delete from the hash table:");
+    if (userInput != null) {
+        let node = hashTable.getNode(userInput);
+        if (node == null) {
+            alert(`No node found with the key of: "${userInput}"`);
+            return;
+        } else {
+            hashTable.deleteNode(userInput);
+            displayHashTable();
+        }
+    }
+}
+
+function searchHashTable() {
+    let userInput = prompt("Enter a key to search for in the hash table:");
+    if (userInput != null) {
+        let node = hashTable.getNode(userInput);
+        if (node != null) {
+            alert(`Node found with key: "${node.key}" and value: ${node.value}`);
+        } else {
+            alert(`No node found with the key of: "${userInput}"`);
+        }
+    }
+}
+
+function fillTableWithDummyData() {
+    for (let i = 0; i < tableSize * 2; i++) {
+        let grade = Math.floor(Math.random() * 101);
+        hashTable.addNode(new Node(`Book ${i + 1}`, grade));
+    }
+    displayHashTable();
+}
+
+function displayHashTableSize() {
+    alert(`Current hash table size: ${hashTable.size}. It has been resized ${hashTable.resizes} times.`);
+}
+
+function resizeBooks() {
+const minHeight = 140;
+    const maxHeight = 320;
+    const heightPerChar = 4;
+    const baseWidth = 48;
+    const maxWidth = 96;
+    const widthPerChar = 1.6;
+
+    document.querySelectorAll(".book").forEach((book, index) => {
+        const spineText = book.querySelector(".spine-text");
+        if (!spineText) {
+            return;
+        }
+
+        const textLength = spineText.textContent.trim().length || 1;
+        const tentativeHeight = minHeight + textLength * heightPerChar;
+        const clampedHeight = Math.max(minHeight, Math.min(maxHeight, tentativeHeight));
+        book.style.height = `${clampedHeight}px`;
+
+        const widthAdjustment = Math.max(0, textLength - 12) * widthPerChar;
+        const tentativeWidth = baseWidth + widthAdjustment;
+        const clampedWidth = Math.min(maxWidth, tentativeWidth);
+        book.style.width = `${clampedWidth}px`;
+        book.style.setProperty("--book-delay", `${index * 150}ms`);
+    });
+}
+
+Window.onload = initalizePage();
+function initalizePage() {
+    let intialSizeInput = prompt("Enter an initial size for the hash table:");
+    if (intialSizeInput != null) {
+        initializeHashTable(parseInt(intialSizeInput));
+    }
+}

@@ -10,7 +10,61 @@
         <link rel="icon" href="favicon.png"> 
     </head> 
     <body>   
-        <h1>Hello, world!</h1>  
+        <h1>DSA Final Exam Scores!</h1>  
+
+
+        <div id="shelfContainer">
+            
+        </div>
+        <section class="shelf">
+            <div class="book">
+                <span class="spine-text">Algorithms 101</span>
+            </div>
+            <div class="book">
+                <span class="spine-text">Data Structures Reference</span>
+            </div>
+        </section>
+
+        <div id="hashTableControlButtons">
+            <button onclick="displayHashTable()">Display Hash Table</button>
+            <button onclick="addToHashTable()">Add to Hash Table</button>
+            <button onclick="deleteFromHashTable()">Delete from Hash Table</button>
+            <button onclick="searchHashTable()">Search Hash Table</button>
+            <button onclick="fillTableWithDummyData()">Fill Table with Dummy Data</button>
+            <button onclick="displayHashTableSize()">Current Table Size</button>
+        </div>
+        <div id="hashTableContentsDisp">
+        </div>
+
+
         <script src="logic.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const minHeight = 140;
+                const maxHeight = 320;
+                const heightPerChar = 4;
+                const baseWidth = 48;
+                const maxWidth = 96;
+                const widthPerChar = 1.6;
+
+                document.querySelectorAll(".book").forEach((book, index) => {
+                    const spineText = book.querySelector(".spine-text");
+                    if (!spineText) {
+                        return;
+                    }
+
+                    const textLength = spineText.textContent.trim().length || 1;
+                    const tentativeHeight = minHeight + textLength * heightPerChar;
+                    const clampedHeight = Math.max(minHeight, Math.min(maxHeight, tentativeHeight));
+                    book.style.height = `${clampedHeight}px`;
+
+                    const widthAdjustment = Math.max(0, textLength - 12) * widthPerChar;
+                    const tentativeWidth = baseWidth + widthAdjustment;
+                    const clampedWidth = Math.min(maxWidth, tentativeWidth);
+                    book.style.width = `${clampedWidth}px`;
+                    book.style.setProperty("--book-delay", `${index * 150}ms`);
+                });
+            });
+        </script>
     </body> 
 </html>

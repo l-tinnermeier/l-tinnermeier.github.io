@@ -53,9 +53,11 @@ class HashTable {
                     placeholderTable.push(this.table[i]);
                 } else {
                     let placeholderNode = this.table[i];
-                    while (placeholderNode.getNextNode() != null) {
+                    while (placeholderNode != null) {
+                        const nextNode = placeholderNode.getNextNode();
+                        placeholderNode.next = null;
                         placeholderTable.push(placeholderNode);
-                        placeholderNode = placeholderNode.getNextNode();
+                        placeholderNode = nextNode;
                     }
                 }
             }
@@ -125,7 +127,13 @@ class HashTable {
             let index = this.hashNode(key);
             if (this.table[index] != null) {
                 if (this.table[index].getNextNode() == null) {
-                    this.table[index] = null;
+                    if (this.table[index].key != key) {
+                        console.log(`No node found to delete with the key of: "${key}"`);
+                        return null;
+                    } else {
+                        this.table[index] = null;
+                        this.elements--;
+                    }
                 } else {
                     let traverserNode = this.table[index];
                     let previousNode = traverserNode;
@@ -134,14 +142,19 @@ class HashTable {
                         traverserNode = traverserNode.getNextNode();
                     }
 
-                    if (previousNode == traverserNode) {
-                        this.table[index] = traverserNode.getNextNode();
+                    if (traverserNode.key == key) {
+                        if (previousNode == traverserNode) {
+                                this.table[index] = traverserNode.getNextNode();
+                        } else {
+                            previousNode.setNextNode(traverserNode.getNextNode());
+                        }
+                        traverserNode = null; 
+                        this.elements--;
                     } else {
-                        previousNode.setNextNode(traverserNode.getNextNode());
+                        console.log(`No node found to delete with the key of: "${key}"`);
+                        return null;
                     }
-                    traverserNode = null;                  
                 }
-                this.elements--;
             } else {
                 console.log(`No node found to delete with the key of: "${key}"`);
                 return null;
@@ -156,13 +169,24 @@ class HashTable {
             let index = this.hashNode(key);
             if (this.table[index] != null) {
                 if (this.table[index].getNextNode() == null) {
-                    return this.table[index];
+                    if (this.table[index].key != key) {
+                        console.log(`No node found with the key of: "${key}"`);
+                        return null;
+                    } else {
+                        return this.table[index];
+                    }
                 } else {
                     let traverserNode = this.table[index];
                     while (traverserNode.getNextNode() != null && traverserNode.key != key) {
                         traverserNode = traverserNode.getNextNode();
                     }
-                    return traverserNode;
+
+                    if (traverserNode.key == key) {
+                        return traverserNode;
+                    } else {
+                        console.log(`No node found with the key of: "${key}"`);
+                        return null;
+                    }
                 }
             } else {
                 console.log(`No node found with the key of: "${key}"`);
@@ -173,7 +197,7 @@ class HashTable {
 }
 
 let hashTable = new HashTable(11);
-let tableSize = 40;
+let tableSize = 440;
 
 for (let i = 0; i < tableSize; i++) {
     hashTable.addNode(new Node(`item ${i}`, i * i));
